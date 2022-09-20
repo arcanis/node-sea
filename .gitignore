@@ -1,5 +1,7 @@
-/a.cjs
+/template.js
+/*.cjs
 /lib
+/*.tgz
 
 .yarn/*
 !.yarn/patches

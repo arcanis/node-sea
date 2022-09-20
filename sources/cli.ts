@@ -65,18 +65,19 @@ class PackCommand extends Command {
 
   async generateZipArchive(input: Buffer | undefined) {
     const zipFs = new ZipFS();
+    const prefixPath = `package` as PortablePath;
 
     const install = this.install;
     if (typeof install === `undefined`) {
       if (typeof input !== `undefined`)
-        await extractArchiveTo(input, zipFs, {stripComponents: 1});
+        await extractArchiveTo(input, zipFs, {stripComponents: 1, prefixPath});
+
 
       return zipFs;
     }
 
     await xfs.mktempPromise(async tempDir => {
-      xfs.detachTemp(tempDir);
-      const pkgFolder = ppath.join(tempDir, `package` as Filename);
+      const pkgFolder = ppath.join(tempDir, prefixPath);
 
       await xfs.mkdirPromise(pkgFolder);
       const targetFs = new CwdFS(pkgFolder);
@@ -94,7 +95,17 @@ class PackCommand extends Command {
       await targetFs.writeJsonPromise(Filename.manifest, data);
 
       // 3. Run the install command there
-      const child = spawn(install, [], {cwd: npath.fromPortablePath(pkgFolder), shell: true});
+      const child = spawn(install, [], {
+        cwd: npath.fromPortablePath(pkgFolder),
+        shell: true,
+        stdio: `inherit`,
+        env: {
+          ...process.env,
+          // This node-sea prototype only deals with node_modules for now, since
+          // that's the common denominator between all three package managers
+          YARN_NODE_LINKER: `node-modules`,
+        },
+      });
 
       const result = await new Promise<number>((resolve, reject) => {
         child.on(`close`, (code, signal) => resolve(code ?? 1));
@@ -113,22 +124,16 @@ class PackCommand extends Command {
   async generateSeaFile(zipFs: ZipFS) {
     const zipData = zipFs.getBufferAndClose();
 
-    // @ts-expect-error
-    await xfs.writeFilePromise(`/tmp/foo.zip`, zipData);
-
-    const templatePath = npath.toPortablePath(require.resolve(`node-sea/template`));
+    const templatePath = npath.toPortablePath(require.resolve(`../template`));
     const templateContent = await xfs.readFilePromise(templatePath, `utf8`);
 
-    const templateParameters = new Map<string, any>([
-      [`DATA`, zipData.toString(`base64`)],
-      [`MAIN`, this.main?.split(`:`)],
-      [`BIN`, this.binary?.split(`:`)],
-    ]);
+    const templatePrefix = `"use strict";var parameters=${JSON.stringify({
+      data: zipData.toString(`base64`),
+      main: this.main?.split(`:`),
+      bin: this.binary?.split(`:`),
+    })};\n`;
 
-    return templateContent.replace(/`<%([A-Z_]+)%>`/g, ($0, $1) => {
-      const value = templateParameters.get($1);
-      return typeof value === `undefined` ? `undefined` : JSON.stringify(value);
-    });
+    return templatePrefix + templateContent;
   }
 
   async openManifest(targetFs: FakeFS<PortablePath>, p: PortablePath = PortablePath.dot) {
