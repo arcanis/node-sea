@@ -1,6 +1,7 @@
 {
   "name": "node-sea",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "bin": {"sea": "lib/cli"},
   "packageManager": "yarn@3.2.3",
   "main": "sources/index",
   "license": "MIT",

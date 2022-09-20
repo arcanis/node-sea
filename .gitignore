@@ -1,4 +1,5 @@
-a.cjs
+/a.cjs
+/lib
 
 .yarn/*
 !.yarn/patches
