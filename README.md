@@ -9,13 +9,13 @@ This project is an experiment built in the context of the Node.js [SEA project](
 Packing a package:
 
 ```
-yarn sea -c 'yarn init -2 && yarn add prettier' -b prettier -m prettier
+yarn sea -c 'yarn init -y && yarn add prettier' -b prettier -m prettier
 ```
 
 Packing a couple of packages together:
 
 ```
-yarn sea -c 'yarn init -2 && yarn add webpack webpack-cli' -b webpack-cli -m webpack
+yarn sea -c 'yarn init -y && yarn add webpack webpack-cli' -b webpack-cli -m webpack
 ```
 
 Packing a tgz:
