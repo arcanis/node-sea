@@ -1,4 +1,5 @@
-import ts from '@rollup/plugin-typescript';
+import ts      from '@rollup/plugin-typescript';
+import shebang from 'rollup-plugin-preserve-shebang';
 
 // eslint-disable-next-line arca/no-default-export
 export default {
@@ -16,6 +17,7 @@ export default {
     },
   ],
   plugins: [
+    shebang(),
     ts({
       tsconfig: `tsconfig.build.json`,
     }),

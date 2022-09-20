@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {CwdFS, FakeFS, Filename, npath, PortablePath, ppath, xfs} from '@yarnpkg/fslib';
 import {ZipFS}                                                    from '@yarnpkg/libzip';
 import {spawn}                                                    from 'child_process';
