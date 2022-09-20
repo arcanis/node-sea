@@ -18,6 +18,12 @@ Or to your project via:
 yarn add node-sea
 ```
 
+## Usage
+
+Calling the `sea` binary will generate a single JS file (`a.cjs` by default, although this name can be changed with `-o,--output`) which, when run on the CLI, will call the binary selected via the `-b,--binary` option and, when required, will re-export the exports from the module selected via the `-m,--main` option.
+
+In order to set the content of the binary you can mix the `-i,--input` flag, which takes a tgz to use as initial content, and the `-c,--command` flag, which runs a given command on the content to generate any extraneous files (for example, `-i ./pkg.tgz -c 'yarn install'` would store both `./pkg.tgz` and its dependencies).
+
 ## Examples
 
 Packing a package:
