@@ -1,6 +1,13 @@
 {
   "name": "node-sea",
+  "version": "0.1.0",
   "packageManager": "yarn@3.2.3",
+  "main": "sources/index",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/arcanis/node-sea",
+    "type": "git"
+  },
   "dependencies": {
     "@yarnpkg/fslib": "^3.0.0-rc.20",
     "@yarnpkg/libzip": "^3.0.0-rc.20",
@@ -16,11 +23,25 @@
     "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.5.0",
     "@types/enhanced-resolve": "^3.0.7",
     "@types/node": "^18.7.15",
     "@types/tar": "^6.1.2",
     "@yarnpkg/eslint-config": "^1.0.0-rc.20",
     "eslint": "^8.23.1",
+    "rollup": "^2.79.0",
     "ts-node": "^10.9.1"
-  }
+  },
+  "scripts": {
+    "prepack": "rm -rf lib && rollup -c",
+    "postpack": "rm -rf lib",
+    "test": "yarn tsc"
+  },
+  "publishConfig": {
+    "main": "lib/index"
+  },
+  "files": [
+    "/lib",
+    "/template.js"
+  ]
 }

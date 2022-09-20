@@ -4,7 +4,7 @@ import {spawn}                                                    from 'child_pr
 import {Command, Option, runExit, UsageError}                     from 'clipanion';
 import * as t                                                     from 'typanion';
 
-import {extractArchiveTo}                                         from './convertToZip';
+import {extractArchiveTo}                                         from './tools/convertToZip';
 
 const isModuleLocator = t.cascade(t.isString(), [t.matchesRegExp(/^[^:]+(:[^:]+)?$/)]);
 
@@ -114,7 +114,7 @@ class PackCommand extends Command {
     // @ts-expect-error
     await xfs.writeFilePromise(`/tmp/foo.zip`, zipData);
 
-    const templatePath = npath.toPortablePath(require.resolve(`./template.js`));
+    const templatePath = npath.toPortablePath(require.resolve(`node-sea/template`));
     const templateContent = await xfs.readFilePromise(templatePath, `utf8`);
 
     const templateParameters = new Map<string, any>([
