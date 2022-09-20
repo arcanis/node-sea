@@ -1,3 +1,5 @@
+a.cjs
+
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
