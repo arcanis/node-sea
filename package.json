@@ -1,12 +1,12 @@
 {
   "name": "node-sea",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "bin": {
     "sea": "lib/cli.js"
   },
   "packageManager": "yarn@3.2.3",
   "main": "sources/index",
-  "license": "MIT",
+  "license": "BSD-2-Clause",
   "repository": {
     "url": "https://github.com/arcanis/node-sea",
     "type": "git"
