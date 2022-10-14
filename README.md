@@ -2,7 +2,7 @@
 
 This project is an experiment built in the context of the Node.js [SEA project](https://github.com/nodejs/single-executable/), which aims to find a way to distribute Node.js packages as single executable archives.
 
-**For this project to work, you must use a modern version of Node.js** - specifically, https://github.com/nodejs/node/pull/44537 must be merged. On 2022-09-20, no release has been made containing this change, so you'll need to build Node.js yourself from its `main` branch.
+**For this project to work, you must use Node.js 18.11+.**
 
 ## Install
 
